@@ -1,7 +1,11 @@
 syntax on
+set autoindent
+set smartindent
 set number
 set clipboard+=unnamed
 set backspace=indent,eol,start
+set mouse=a
+inoremap jk <Esc>
 
 "--------------------------
 " Start Neobundle Settings.
@@ -23,17 +27,24 @@ vmap <C-_> <Plug>(caw:i:toggle)
 
 " editorconfigをvimで使えるようにする
 NeoBundle 'editorconfig/editorconfig-vim'
-
-"--- MarkDown ---
 "NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
 
-au BufRead,BufNewFile *.md set filetype=markdown
-let g:previm_open_cmd = 'open -a chromium'
+" linuxコーディング規約
+NeoBundle 'vivien/vim-linux-coding-style.git'
+
 "----------------
 
 call neobundle#end()
+
+" Linux-coding-style
+let g:linuxsty_patterns = [ "/usr/src/", "/linux", "/Users/Gen/syspro2016" ]
+
+" Markdown
+au BufRead,BufNewFile *.md set filetype=markdown
+let g:previm_open_cmd = 'open -a chromium'
+
 
 " Required:
 filetype plugin indent on
@@ -41,3 +52,4 @@ filetype plugin indent on
 "------------------------
 " End Neobundle Settings.
 "------------------------
+"

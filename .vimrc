@@ -7,6 +7,14 @@ set backspace=indent,eol,start
 set mouse=a
 inoremap jk <Esc>
 
+" hide tmux status bar
+if !has('gui_running') && $TMUX !=# ''
+    augroup Tmux
+        autocmd!
+        autocmd VimEnter,VimLeave * silent !tmux set status
+    augroup END
+endif
+
 " vim-plug
 if has('vim_starting')
     set rtp+=~/.vim/plugged/vim-plug

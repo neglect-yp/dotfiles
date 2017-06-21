@@ -7,6 +7,10 @@ $ '
 autoload -Uz compinit
 compinit -u
 
+# history
+SAVEHIST=100
+HISTFILE=~/.zsh_history
+
 # alias
 alias rm='rm -i'
 alias today='date "+%Y%m%d"'

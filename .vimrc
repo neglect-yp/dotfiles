@@ -7,6 +7,9 @@ set backspace=indent,eol,start
 set mouse=a
 inoremap jk <Esc>
 
+highlight turn gui=standout cterm=standout
+call matchadd('turn', '^.\{80\}\zs.\+\ze')
+
 " hide tmux status bar
 if !has('gui_running') && $TMUX !=# ''
     augroup Tmux

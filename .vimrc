@@ -5,18 +5,8 @@ set number
 set clipboard+=unnamed
 set backspace=indent,eol,start
 set mouse=a
+set splitbelow
 inoremap jk <Esc>
-
-highlight turn gui=standout cterm=standout
-call matchadd('turn', '^.\{80\}\zs.\+\ze')
-
-" hide tmux status bar
-if !has('gui_running') && $TMUX !=# ''
-    augroup Tmux
-        autocmd!
-        autocmd VimEnter,VimLeave * silent !tmux set status
-    augroup END
-endif
 
 " vim-plug
 if has('vim_starting')
@@ -34,5 +24,13 @@ Plug 'junegunn/vim-plug',
 Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go'
 Plug 'cohama/lexima.vim'
+Plug 'davidhalter/jedi-vim'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'kannokanno/previm'
+Plug 'tyru/open-browser.vim'
 filetype plugin indent on
 call plug#end()
+
+au BufRead,BufNewFile *.md set filetype=markdown
+let g:previm_open_cmd = 'open -a Google\ Chrome'

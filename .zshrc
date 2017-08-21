@@ -1,4 +1,12 @@
 # prompt
+autoload -Uz vcs_info
+setopt prompt_subst
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+precmd () { vcs_info; RPROMPT="${vcs_info_msg_0_}" }
 PROMPT="%K{green}%F{black}${MY_PROMPT:-%n@%m %~}%f%k
 $ "
 
@@ -17,7 +25,7 @@ alias today='date "+%Y%m%d"'
 setopt ignore_eof
 setopt auto_cd
 
-# vi mode
+# --- vi mode ---
 bindkey -v
 autoload -Uz colors; colors
 autoload -Uz add-zsh-hook
@@ -159,6 +167,19 @@ if is-at-least 5.0.8; then
     bindkey -a ys add-surround
     bindkey -a S add-surround
 fi
+# --- end vi mode ---
+
+# zplug
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
+zplug "bobthecow/git-flow-completion", from:oh-my-zsh
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+zplug load --verbose
     
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 

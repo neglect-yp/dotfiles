@@ -13,6 +13,9 @@ indent_size = 4
 [*.html]
 indent_size = 2
 
+[*.yml]
+indent_size = 2
+
 # Tab indentation (no size specified)
 [*.js]
 indent_style = tab

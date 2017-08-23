@@ -1,4 +1,11 @@
 # prompt
+function git_prompt_stash_count {
+  local COUNT=$(git stash list 2>/dev/null | wc -l | tr -d ' ')
+  if [ "$COUNT" -gt 0 ]; then
+    echo "($COUNT) "
+  fi
+}
+
 autoload -Uz vcs_info
 setopt prompt_subst
 zstyle ':vcs_info:git:*' check-for-changes true
@@ -6,7 +13,7 @@ zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
 zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
 zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd () { vcs_info; RPROMPT="${vcs_info_msg_0_}" }
+precmd () { vcs_info; RPROMPT="`git_prompt_stash_count`${vcs_info_msg_0_}" }
 PROMPT="%K{green}%F{black}${MY_PROMPT:-%n@%m %~}%f%k
 $ "
 

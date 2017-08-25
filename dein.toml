@@ -24,15 +24,46 @@ let g:deoplete#auto_complete_delay=10
 '''
 
 [[plugins]]
+repo = 'cespare/vim-toml'
+
+# Python Plugins
+[[plugins]]
 repo = 'zchee/deoplete-jedi'
-hook_source = '''
-let g:python3_host_prog = "/usr/local/bin/python3"
-let g:python_host_prog = "/usr/local/bin/python"
+on_ft = ['python']
+
+[[plugins]]
+repo = 'neomake/neomake'
+if = "has('nvim')"
+hook_add = '''
+autocmd! BufEnter,BufWritePost * Neomake
+let g:neomake_python_enabled_makers = ['python', 'flake8', 'mypy']
 '''
+on_ft = ['python']
+
+[[plugins]]
+repo = 'vim-syntastic/syntastic'
+if = "!has('nvim')"
+hook_add = '''
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" for Python
+let g:syntastic_python_checkers = ['python', 'flake8', 'mypy']
+'''
+on_ft = ['python']
 
 [[plugins]]
 repo = 'Vimjas/vim-python-pep8-indent'
+on_ft = ['python']
 
+[[plugins]]
+repo = 'hdima/python-syntax'
+hook_add = '''
+let g:python_highlight_all = 1
+'''
+on_ft = ['python']
+
+# Markdown Plugins
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
 hook_add = 'let g:vim_markdown_folding_disabled=1'
@@ -43,43 +74,41 @@ repo = 'kannokanno/previm'
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 
-[[plugins]]
-repo = 'cespare/vim-toml'
-
+# JavaScript Plugins
 [[plugins]]
 repo = 'othree/yajs.vim'
-#on_ft = ['javascript', 'html', 'php']
+on_ft = ['javascript', 'html', 'php']
 
 [[plugins]]
 repo = 'pangloss/vim-javascript'
-#on_ft = ['javascript']
+on_ft = ['javascript']
 hook_add = '''
 let g:jsx_ext_required = 0
 '''
 
 [[plugins]]
 repo = 'MaxMEllon/vim-jsx-pretty'
-#on_ft = ['javascript']
+on_ft = ['javascript']
 
 [[plugins]]
 repo = 'moll/vim-node'
-#on_ft = ['javascript']
+on_ft = ['javascript']
 
 [[plugins]]
 repo = 'myhere/vim-nodejs-complete'
-#on_ft = ['javascript']
+on_ft = ['javascript']
 hook_add = '''
-  setl omnifunc=jscomplete#CompleteJS
-  if !exists('g:neocomplcache_omni_functions')
-    let g:neocomplcache_omni_functions = {}
-  endif
-  let g:neocomplcache_omni_functions.javascript = 'nodejscomplete#CompleteJS'
-  let g:node_usejscomplete = 1
+setl omnifunc=jscomplete#CompleteJS
+if !exists('g:neocomplcache_omni_functions')
+let g:neocomplcache_omni_functions = {}
+endif
+let g:neocomplcache_omni_functions.javascript = 'nodejscomplete#CompleteJS'
+let g:node_usejscomplete = 1
 '''
 
 [[plugins]]
 repo = 'w0rp/ale.git'
 on_source = ['lightline.vim']
 hook_add = '''
-  let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '']
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '']
 '''

@@ -21,9 +21,15 @@ HISTFILE=~/.zsh_history
 # alias
 alias rm='rm -i'
 alias today='date "+%Y%m%d"'
+if [ `which nvim` ]; then
+    alias vim='nvim'
+fi
 
 setopt ignore_eof
 setopt auto_cd
+
+# environment varibales
+export XDG_CACHE_HOME=~/.cache
 
 # --- vi mode ---
 bindkey -v

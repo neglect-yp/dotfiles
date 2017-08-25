@@ -29,6 +29,8 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'kannokanno/previm'
 Plug 'tyru/open-browser.vim'
+
+Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install' }
 filetype plugin indent on
 call plug#end()
 

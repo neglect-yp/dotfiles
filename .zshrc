@@ -1,3 +1,5 @@
+autoload -Uz add-zsh-hook
+
 # prompt
 function git_prompt_stash_count {
   local COUNT=$(git stash list 2>/dev/null | wc -l | tr -d ' ')
@@ -13,11 +15,18 @@ zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
 zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
 zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd () { vcs_info; RPROMPT="`git_prompt_stash_count`${vcs_info_msg_0_}" }
-PROMPT="%K{green}%F{black}${MY_PROMPT:-%n@%m %~}%f%k
+
+#TODO: Mac用とファイルが存在するかの判定を書く
+source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+update_prompt () {
+    vcs_info
+    PROMPT="%K{green}%F{black}${MY_PROMPT:-%n@%m %~}%f%k ${vcs_info_msg_0_}`git_prompt_stash_count`$(kube_ps1)
 $ "
+}
+add-zsh-hook precmd update_prompt
 
 # completion
+fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -Uz compinit
 compinit -u
 
@@ -28,6 +37,7 @@ HISTFILE=~/.zsh_history
 # alias
 alias rm='rm -i'
 alias today='date "+%Y%m%d"'
+alias ls='ls -G'
 if [ `which nvim` ]; then
     alias vim='nvim'
 fi
@@ -35,41 +45,36 @@ fi
 setopt ignore_eof
 setopt auto_cd
 
+yesno() {
+    echo -n "[y/N] "
+    read ans
+    case $ans in
+        [Yy] ) return 0 ;;
+        * ) return 1 ;;
+    esac
+}
+if type ssh-agent >/dev/null 2>&1; then
+    ssh-agent -k >/dev/null 2>&1
+    eval "$(ssh-agent)" >/dev/null 2>&1
+    ssh-add >/dev/null 2>&1
+    alias ssh='ssh-add -l | cut -d " " -f 3 && yesno && ssh'
+fi
+
 # environment varibales
 export XDG_CACHE_HOME=~/.cache
 
 # --- vi mode ---
 bindkey -v
 autoload -Uz colors; colors
-autoload -Uz add-zsh-hook
 autoload -Uz terminfo
 autoload -Uz is-at-least
 
-function zle-keymap-select zle-line-init zle-line-finish
-{
-    case $KEYMAP in
-        main|viins)
-            tmux set -g status-left "-- INSERT -- | "
-            ;;
-        vicmd)
-            tmux set -g status-left "-- NORMAL -- | "
-            ;;
-        vivis|vivli)
-            tmux set -g status-left "-- VISUAL -- | "
-            ;;
-    esac
-}
-
-zle -N zle-line-init
-zle -N zle-line-finish
-zle -N zle-keymap-select
 zle -N edit-command-line
 
 # Helper function
 # use 'zle -la' option
 # zsh -la option returns true if the widget exists
-has_widgets() {
-    if [[ -z $1 ]]; then
+has_widgets() { if [[ -z $1 ]]; then
         return 1
     fi
     zle -la "$1"
@@ -182,17 +187,13 @@ if is-at-least 5.0.8; then
 fi
 # --- end vi mode ---
 
-# zplug
-export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
-zplug "bobthecow/git-flow-completion", from:oh-my-zsh
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
+if hash pyenv 2>/dev/null; then
+    eval "$(pyenv init -)"
 fi
-zplug load --verbose
-    
+
+if hash asdf 2>/dev/null; then
+    source /usr/local/opt/asdf/asdf.sh
+fi
+
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 

@@ -13,7 +13,13 @@ indent_size = 4
 [*.html]
 indent_size = 2
 
-[*.yml]
+[{*.yml,*.yaml}]
+indent_size = 2
+
+[*.ex]
+indent_size = 2
+
+[*.exs]
 indent_size = 2
 
 # Tab indentation (no size specified)
@@ -30,8 +36,23 @@ indent_size = 2
 indent_style = space
 indent_size = 2
 
+[*.json]
+indent_style = space
+indent_size = 2
+
 [*.s]
 indent_style = tab
 
+[*.go]
+indent_style = tab
+indent_size = 8
+
+[*.gotmpl]
+indent_style = tab
+indent_size = 8
+
 [Makefile]
 indent_style = tab
+
+[*.tf]
+indent_size = 2

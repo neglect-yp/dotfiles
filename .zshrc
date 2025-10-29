@@ -42,6 +42,7 @@ fi
 
 setopt ignore_eof
 setopt auto_cd
+setopt no_beep
 
 yesno() {
     echo -n "[y/N] "

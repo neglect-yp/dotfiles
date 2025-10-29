@@ -16,11 +16,9 @@ zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
 zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 
-#TODO: Mac用とファイルが存在するかの判定を書く
-source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
 update_prompt () {
     vcs_info
-    PROMPT="%K{green}%F{black}${MY_PROMPT:-%n@%m %~}%f%k ${vcs_info_msg_0_}`git_prompt_stash_count`$(kube_ps1)
+    PROMPT="%K{green}%F{black}${MY_PROMPT:-%n@%m %~}%f%k ${vcs_info_msg_0_}`git_prompt_stash_count`
 $ "
 }
 add-zsh-hook precmd update_prompt

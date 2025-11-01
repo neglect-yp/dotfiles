@@ -42,5 +42,3 @@ inoremap jk <Esc>
 
 au BufRead,BufNewFile *.md set filetype=markdown
 
-let g:python3_host_prog = '/usr/local/bin/python3'
-

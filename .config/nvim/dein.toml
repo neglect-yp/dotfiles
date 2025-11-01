@@ -20,7 +20,7 @@ repo = 'cohama/lexima.vim'
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
 let g:deoplete#enable_at_startup=1
-let g:deoplete#auto_complete_delay=10
+call deoplete#custom#option("auto_complete_delay", 10)
 '''
 
 [[plugins]]
